@@ -1,0 +1,90 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Lato, sans-serif;
+}
+
+.selection{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.selections{
+    display: flex;
+    flex-direction: column;
+}
+
+.game{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 60%;
+    /* height: 60%; */
+}
+
+.side{
+    flex: 1;
+    text-align: center;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+
+}
+
+.infor{
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.human.selection:not(.unselected){
+    background-color: blue;
+}
+
+.computer.selection:not(.unselected){
+    background-color: red;
+}
+
+.human.selection:hover{
+    background-color: yellow;
+    color: black;
+    cursor: pointer;
+}
+
+.computer.selection:hover{
+    cursor: not-allowed;
+}
+
+.selected{
+    text-decoration: underline;
+}
+
+.unselected{
+    background-color: gray;
+}
+
+.msg{
+    font-size: 20px;
+    padding: 20px;
+}
+
+button{
+    border: transparent;
+    border-radius: 5px;
+    background-color: purple;
+    color: white;
+    font-size: 18px;
+    padding: 5px 20px;
+
+}

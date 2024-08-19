@@ -1,4 +1,5 @@
 let lastResult = "";
+let isPlaying = true;
 
 function getComputerChoice(){
     let choice = Math.floor(Math.random()*3);
@@ -74,10 +75,47 @@ function playGame(rounds){
 
 }
 
-let rounds;
-do{
-    rounds = Number(prompt("How many rounds do you want to play?"));
-} while(!rounds);
-playGame(rounds);
+
+const humanSide = document.querySelector(".side#human");
+humanSide.addEventListener(
+    "click",
+    (event)=>{
+        if(event.target.classList.contains("selection")){
+            // only run code when click on one of the rock, paper, scissors button
+            showHumanChoice(event.target.classList[1]);
+            showComputerChoice();
+        }
+    }
+);
+
+function showChoice(selectionDivList, choiceStr){
+    selectionDivList.forEach(
+        (div) => {
+            if(div.classList.contains("selected")){
+                div.classList.remove("selected");
+            }
+            if(div.classList.contains("unselected")){
+                div.classList.remove("unselected");
+            }
+            if(div.classList[1] === choiceStr){
+                div.classList.add("selected");
+            }
+            else{
+                div.classList.add("unselected");
+            }
+        }
+    );
+}
 
 
+function showComputerChoice(){
+    const allComputerChoiceDiv = document.querySelectorAll(".computer.selection");
+    const computerChoice = getComputerChoice();
+    console.log(computerChoice);
+    showChoice(allComputerChoiceDiv,computerChoice);    
+}
+
+function showHumanChoice(choiceStr){
+    const allHumanChoiceDiv = document.querySelectorAll(".human.selection");
+    showChoice(allHumanChoiceDiv,choiceStr);
+}
