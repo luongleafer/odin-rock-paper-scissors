@@ -79,12 +79,18 @@ body{
     padding: 20px;
 }
 
-button{
+button:not(.transparent){
     border: transparent;
     border-radius: 5px;
     background-color: purple;
     color: white;
     font-size: 18px;
     padding: 5px 20px;
+    height: 32px;
+}
 
+.transparent{
+    color: transparent;
+    background-color: transparent;
+    border: transparent;
 }

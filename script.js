@@ -1,5 +1,10 @@
 let lastResult = "";
 let isPlaying = true;
+let humanScore = 0;
+let computerScore = 0;
+let currentRound = 1;
+const roundCountDiv = document.querySelector(".round>span");
+roundCountDiv.textContent = currentRound;
 
 function getComputerChoice(){
     let choice = Math.floor(Math.random()*3);
@@ -30,8 +35,6 @@ function getHumanChoice(promtMsg){
     return humanChoice.toLowerCase();
 }
 
-let humanScore = 0;
-let computerScore = 0;
 
 function playRound(humanChoice, computerChoice){
     if ( humanChoice === computerChoice){
@@ -50,6 +53,8 @@ function playRound(humanChoice, computerChoice){
         computerScore++;
     }
     console.log(lastResult);
+    console.log(humanScore,computerScore);
+    return lastResult;
 }
 
 function playGame(rounds){
@@ -75,28 +80,43 @@ function playGame(rounds){
 
 }
 
+const nextRoundButton = document.querySelector("#next-btn");
+nextRoundButton.classList.add("transparent");
+nextRoundButton.addEventListener("click", newRound);
+
+function newRound(){
+    currentRound++;
+    roundCountDiv.textContent = currentRound.toString();
+    resetSelection();
+    isPlaying = true;
+    nextRoundButton.classList.add("transparent");
+}
+
 
 const humanSide = document.querySelector(".side#human");
 humanSide.addEventListener(
     "click",
     (event)=>{
+        if(isPlaying){
         if(event.target.classList.contains("selection")){
             // only run code when click on one of the rock, paper, scissors button
-            showHumanChoice(event.target.classList[1]);
-            showComputerChoice();
+            const humanChoice = event.target.classList[1];
+            const computerChoice = getComputerChoice();
+            const msg = playRound(humanChoice,computerChoice);
+            showHumanChoice(humanChoice);
+            showComputerChoice(computerChoice);
+            showMsg(msg);
+            showScore();
+            isPlaying = false;
+            nextRoundButton.classList.remove("transparent");
         }
+    }
     }
 );
 
 function showChoice(selectionDivList, choiceStr){
     selectionDivList.forEach(
         (div) => {
-            if(div.classList.contains("selected")){
-                div.classList.remove("selected");
-            }
-            if(div.classList.contains("unselected")){
-                div.classList.remove("unselected");
-            }
             if(div.classList[1] === choiceStr){
                 div.classList.add("selected");
             }
@@ -108,14 +128,39 @@ function showChoice(selectionDivList, choiceStr){
 }
 
 
-function showComputerChoice(){
+function showComputerChoice(choiceStr){
     const allComputerChoiceDiv = document.querySelectorAll(".computer.selection");
-    const computerChoice = getComputerChoice();
-    console.log(computerChoice);
-    showChoice(allComputerChoiceDiv,computerChoice);    
+    console.log(choiceStr);
+    showChoice(allComputerChoiceDiv, choiceStr);    
 }
 
 function showHumanChoice(choiceStr){
     const allHumanChoiceDiv = document.querySelectorAll(".human.selection");
     showChoice(allHumanChoiceDiv,choiceStr);
 }
+
+function resetSelection(){
+    document.querySelectorAll(".selection").forEach(
+        (div) => {
+            if(div.classList.contains("selected")){
+                div.classList.remove("selected");
+            }
+            if(div.classList.contains("unselected")){
+                div.classList.remove("unselected");
+            }
+        }
+    );
+}
+
+function showMsg(msgStr){
+    const msgDiv = document.querySelector(".msg");
+    msgDiv.textContent = msgStr;
+}
+
+function showScore(){
+    const humanScoreDiv = document.querySelector("#human>.score"); 
+    const computerScoreDiv = document.querySelector("#computer>.score"); 
+    humanScoreDiv.textContent = humanScore.toString();
+    computerScoreDiv.textContent = computerScore.toString();
+}
+
